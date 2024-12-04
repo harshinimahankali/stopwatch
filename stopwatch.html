@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 5rem;
+            background: rgb(2, 0, 36);
+            background-image: linear-gradient(to bottom right, rgb(16, 160, 243) , rgb(71, 247, 71),rgb(239, 130, 40), rgb(239, 17, 147));
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #box {
+            border: 3px solid white;
+            padding: 20px 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px black;
+            margin-bottom: 20px;
+        }
+
+        span {
+            font-size: 5rem;
+        }
+
+        button {
+            font-size: 2rem;
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="box">
+            <span id="hr">00</span>
+            <span>:</span>
+            <span id="min">00</span>
+            <span>:</span>
+            <span id="sec">00</span>
+        </div>
+
+        <div>
+            <button id="startBtn">Start</button>
+            <button id="stopBtn">Stop</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+    </div>
+    <script>
+        let interval = null;
+        let seconds = 0;
+
+
+        function displayTime() {
+            const hr = Math.floor(seconds / 3600);
+            const min = Math.floor((seconds % 3600) / 60);
+            const sec = seconds % 60;
+
+            document.getElementById("hr").textContent = padZero(hr);
+            document.getElementById("min").textContent = padZero(min);
+            document.getElementById("sec").textContent = padZero(sec);
+        }
+
+
+        function padZero(num) {
+            return num < 10 ? "0" + num : num;
+        }
+
+
+        document.getElementById("startBtn").addEventListener("click", function () {
+            if (!interval) {
+                interval = setInterval(() => {
+                    seconds++;
+                    displayTime();
+                }, 1000);
+            }
+        });
+
+
+        document.getElementById("stopBtn").addEventListener("click", function () {
+            clearInterval(interval);
+            interval = null;
+        });
+
+
+        document.getElementById("resetBtn").addEventListener("click", function () {
+            clearInterval(interval);
+            interval = null;
+            seconds = 0;
+            displayTime();
+        });
+
+
+        displayTime();
+    </script>
+</body>
+
+</html>
